@@ -1,0 +1,51 @@
+# Config (optional local overrides; config.env.example is committed)
+config.env
+
+# Credentials and tokens - NEVER COMMIT
+# Google OAuth client credentials
+bloger-cred.json
+blogger-cred.json
+*-cred.json
+credentials.json
+client_secret*.json
+
+# OAuth tokens
+token.json
+*.token.json
+*_token.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.env
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# IDE / OS
+.idea/
+.vscode/
+*.code-workspace
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Test/temp files
+*.tmp
+temp/
+tmp/
+
+# Drafts with real blog/post IDs (keep templates)
+drafts/*
+!drafts/template.md
+!drafts/*.png
+!drafts/*.jpg
