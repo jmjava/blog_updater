@@ -1,0 +1,95 @@
+server:
+  port: 1338
+
+blog-agent:
+  # Reload RAG content on startup
+  reload-content-on-startup: true
+
+  # Python Agent URL (embabel-agent-remote API)
+  # When set, blog operations delegate to the Python agent
+  # When not set, calls the direct Blogger API below
+  python-agent:
+    url: ${BLOG_PYTHON_AGENT_URL:http://localhost:8000}
+
+  # Blogger API (existing FastAPI service) - fallback when Python agent not available
+  blogger-api-url: http://localhost:8080
+
+  # Path to drafts directory
+  drafts-path: ../drafts
+
+  # Default blog ID (get from GET /blogs)
+  # default-blog-id: YOUR_BLOG_ID
+
+  # LLM for chat interactions
+  chat-llm:
+    model: gpt-4.1-mini
+
+  # LLM for content generation (can use a more capable model)
+  content-llm:
+    model: gpt-4.1
+
+  # URLs to ingest for RAG (documentation, blogs, repos)
+  urls:
+    - https://docs.embabel.com/embabel-agent/guide/0.3.1-SNAPSHOT/
+    - https://github.com/embabel/embabel-agent/blob/main/README.md?plain=1
+
+  # Local directories to ingest for RAG
+  local-dirs:
+    - ../  # blog_updater root
+    # Add more repos as needed:
+    # - /path/to/embabel-learning
+
+  # Human-in-the-Loop configuration
+  hitl:
+    require-approval: true
+    auto-approve-threshold: 0.0  # Always require approval (set higher to auto-approve confident drafts)
+    max-revisions: 3
+
+# Spring configuration
+spring:
+  main:
+    web-application-type: servlet
+  output:
+    ansi:
+      enabled: always
+  profiles:
+    active: local
+
+# Embabel configuration
+embabel:
+  models:
+    llms:
+      summarizer: gpt-4.1-nano
+
+    default-embedding-model: text-embedding-3-small
+    default-llm: gpt-4.1-mini
+
+  agent:
+    rag:
+      neo:
+        uri: ${NEO4J_URI:bolt://localhost:7687}
+        username: ${NEO4J_USERNAME:neo4j}
+        password: ${NEO4J_PASSWORD:brahmsian}
+        max-chunk-size: 1500
+        overlap-size: 200
+
+    logging:
+      personality: default
+
+# Logging
+logging:
+  level:
+    com.embabel.agent.rag: INFO
+    com.blogagent: DEBUG
+    org.drivine: INFO
+
+# Neo4j data source
+database:
+  dataSources:
+    neo:
+      type: NEO4J
+      userName: ${NEO4J_USERNAME:neo4j}
+      password: ${NEO4J_PASSWORD:brahmsian}
+      host: ${NEO4J_HOST:localhost}
+      port: 7687
+      databaseName: neo4j

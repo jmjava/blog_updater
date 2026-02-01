@@ -1,0 +1,22 @@
+# Blog Python Agent
+# Install: pip install -e .  or  pip install -r requirements.txt
+
+# Core
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.0.0
+httpx>=0.26.0
+click>=8.1.0
+
+# Blogger API (reuse from parent blog_updater)
+google-api-python-client>=2.100.0
+google-auth-oauthlib>=1.1.0
+google-auth-httplib2>=0.1.1
+pyyaml>=6.0
+markdown>=3.5
+
+# Dev
+pytest>=7.0.0
+pytest-asyncio>=0.23.0
+black
+ruff
